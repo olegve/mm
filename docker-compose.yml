@@ -11,7 +11,10 @@ services:
   # Django конфигурация
   web-app:
     build:
-      context: ./${DJANGO_PROJECT_NAME}
+#      context: ./${DJANGO_PROJECT_NAME}
+      context: .
+      dockerfile: ./${DJANGO_PROJECT_NAME}/Dockerfile
+
     ports:
       - "8000:8000"
     volumes:
@@ -26,7 +29,8 @@ services:
     depends_on:
       - database
       - redis
-#      - worker
+      - worker
+      - worker2
 
 
   # Postgres конфигурация
@@ -48,66 +52,71 @@ services:
     hostname: redis
 
 
-#  # Celery worker конфигурация
-#  worker:
-#    build:
-#      context: .
-#    hostname: worker
-#    entrypoint: celery
-#    command: -A ${DJANGO_PROJECT_NAME} worker -l INFO
-#    volumes:
-#      # Смотри Dockerfile и Django web-app.
-#      # Пробрасываем локальную папку приложения Django в docker.
-#      # При изменении кода не нужно перестраивать контейнер.
-#      - ./${DJANGO_PROJECT_NAME}:/${DJANGO_PROJECT_NAME}
-#    links:
-#      - redis
-#    depends_on:
-#      - redis
-#      - database
-#    env_file:
-#      - .env
+  # Celery worker конфигурация
+  worker:
+    build:
+      context: .
+      dockerfile: ./${DJANGO_PROJECT_NAME}/Dockerfile
+    hostname: worker
+    entrypoint: celery
+    command: -A ${DJANGO_PROJECT_NAME} worker -l INFO
+    volumes:
+      # Смотри Dockerfile и Django web-app.
+      # Пробрасываем локальную папку приложения Django в docker.
+      # При изменении кода не нужно перестраивать контейнер.
+      - ./${DJANGO_PROJECT_NAME}:/${DJANGO_PROJECT_NAME}
+    links:
+      - redis
+    depends_on:
+      - redis
+      - database
+    env_file:
+      - .env
 
 
-#  # Flower конфигурация
-#  flower:
-#    build:
-#      context: .
-#    hostname: flower
-#    entrypoint: celery
-#    command: -A ${DJANGO_PROJECT_NAME} flower -l INFO
-#    volumes:
-#      # Смотри Dockerfile и Django web-app.
-#      # Пробрасываем локальную папку приложения Django в docker.
-#      # При изменении кода не нужно перестраивать контейнер.
-#      - ./${DJANGO_PROJECT_NAME}:/${DJANGO_PROJECT_NAME}
-#    links:
-#      - redis
-#    depends_on:
-#      - worker
-#      - worker2
-#    ports:
-#      - "5555:5555"
-#    env_file:
-#      - .env
+  # Celery worker2 конфигурация
+  worker2:
+    build:
+      context: .
+      dockerfile: ./${DJANGO_PROJECT_NAME}/Dockerfile
+    hostname: worker2
+    entrypoint: celery
+    command: -A ${DJANGO_PROJECT_NAME} worker -l INFO
+    volumes:
+      # Смотри Dockerfile и Django web-app.
+      # Пробрасываем локальную папку приложения Django в docker.
+      # При изменении кода не нужно перестраивать контейнер.
+      - ./${DJANGO_PROJECT_NAME}:/${DJANGO_PROJECT_NAME}
+    links:
+      - redis
+    depends_on:
+      - redis
+      - database
+    env_file:
+      - .env
 
 
-#  # Celery worker2 конфигурация
-#  worker2:
-#    build:
-#      context: .
-#    hostname: worker2
-#    entrypoint: celery
-#    command: -A ${DJANGO_PROJECT_NAME} worker -l INFO
-#    volumes:
-#      # Смотри Dockerfile и Django web-app.
-#      # Пробрасываем локальную папку приложения Django в docker.
-#      # При изменении кода не нужно перестраивать контейнер.
-#      - ./${DJANGO_PROJECT_NAME}:/${DJANGO_PROJECT_NAME}
-#    links:
-#      - redis
-#    depends_on:
-#      - redis
-#      - database
-#    env_file:
-#      - .env
+  # Flower конфигурация
+  flower:
+    build:
+      context: .
+      dockerfile: ./${DJANGO_PROJECT_NAME}/Dockerfile
+    hostname: flower
+    entrypoint: celery
+    command: -A ${DJANGO_PROJECT_NAME} flower -l INFO
+    volumes:
+      # Смотри Dockerfile и Django web-app.
+      # Пробрасываем локальную папку приложения Django в docker.
+      # При изменении кода не нужно перестраивать контейнер.
+      - ./${DJANGO_PROJECT_NAME}:/${DJANGO_PROJECT_NAME}
+    links:
+      - redis
+    depends_on:
+      - worker
+      - worker2
+    ports:
+      - "5555:5555"
+    env_file:
+      - .env
+
+

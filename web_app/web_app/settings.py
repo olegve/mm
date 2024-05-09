@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_api_key',
 
     "api",
-    "companies",
+    "organizations",
     "users",
 
 ]
