@@ -1,5 +1,5 @@
 import logging
-from datetime import timezone
+from datetime import timezone, datetime
 
 from django.contrib.admin import SimpleListFilter
 from django.db.models import Q
@@ -43,17 +43,11 @@ class APIKeyFilter(SimpleListFilter):
         """
         if not self.value():
             return queryset
-
-        # logging.info(f'is Null {OrganizationAPIKey.objects.filter(Q(expiry_date__isnull=True)).exists()}')
-        # logging.info(f'is GTE {OrganizationAPIKey.objects.filter(Q(expiry_date__gte=timezone.now())).exists()}')
-        # logging.info(f'time: {timezone.now()}')
-
         filter_queryset = (
                 Q(revoked=False) & Q(blocked=False) &
-                (Q(expiry_date__isnull=True) | Q(expiry_date__gte=timezone.now()))
+                (Q(expiry_date__isnull=True) | Q(expiry_date__gte=datetime.now().astimezone()))
         )
         if self.value().lower() == 'active':
             return queryset.filter(filter_queryset)
         elif self.value().lower() == 'not_active':
             return queryset.filter().exclude(filter_queryset)
-
