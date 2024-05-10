@@ -1,7 +1,11 @@
 import logging
+
+
 from django.contrib import admin
+
 from rest_framework_api_key.admin import APIKeyModelAdmin
 
+from api.api_key import APIKeyFilter
 from api.models import OrganizationAPIKey
 
 
@@ -16,10 +20,10 @@ class OrganizationAPIKeyModelAdmin(APIKeyModelAdmin):
         "_has_expired",
         "revoked",
         "blocked",
-        "is_active"
+        "is_active",
     )
-    list_filter = ("created",)
-    search_fields = ("name", "prefix")
+    list_filter = ("created", APIKeyFilter, )
+    search_fields = ("name", "prefix", "organization__id", "organization__name",)
 
 
 

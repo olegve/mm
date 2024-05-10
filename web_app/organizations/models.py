@@ -1,6 +1,8 @@
 from typing import NamedTuple
 from django.db import models
 
+from core.organization_state import STATE_CHOICES, ACTIVE
+
 
 class Organization(models.Model):
     """Организации, использующие сервис пересылки сообщений.
@@ -19,25 +21,7 @@ class Organization(models.Model):
                 Поле обязательно для заполнения.  Состояние по умолчанию - ACTIVE
     """
 
-    ACTIVE = 0
-    """Статус компании. Компания активна.  API Keys активны."""
-    BLOCKED = 1
-    """Статус компании. Компания заблокирована по какой либо причине. API Keys заблокированы."""
-    PARTIAL = 2
-    """Статус компании. Компания частично заблокирована по какой либо причине. API Keys заблокированы."""
-    ARCHIVE = 3
-    """
-    Статус компании. Компания заблокирована по какой либо причине.  API Keys заблокированы.  
-    Пользователи заблокированы
-    """
 
-    STATE_CHOICES: tuple[tuple[int, str], ...] = (
-        (ACTIVE,  'Активна'),
-        (BLOCKED, 'Заблокирована'),
-        (PARTIAL, 'Заблокирована частично'),
-        (ARCHIVE, 'Архив'),
-    )
-    """Поддерживаемые варианты статусов состояния организации в системе."""
 
     id = models.CharField(
         verbose_name='Идентификатор',
@@ -63,11 +47,11 @@ class Organization(models.Model):
         ordering = ("name",)
         # constraints = ()
 
-    def __str__(self):
-        def get_status_name(state: int) -> str:
-            return next((x[1] for x in Organization.STATE_CHOICES if x[0] == state), 'Состояние неопределено')
+    def status_name(self) -> str:
+        return next((x[1] for x in STATE_CHOICES if x[0] == self.state), 'Состояние неопределено')
 
-        return f'{self.name}, ID: {self.id} ({get_status_name(self.state)})'
+    def __str__(self):
+        return f'{self.name}, ID: {self.id} ({self.status_name()})'
 
 
 class OrganizationDetails(models.Model):

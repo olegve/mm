@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from rest_framework_api_key.models import AbstractAPIKey
 
+from api.api_key import OrganizationAPIKeyManager
 from organizations.models import Organization
 
 
@@ -34,6 +35,8 @@ class OrganizationAPIKey(AbstractAPIKey):
             blocked(bool):
                 If the API key is blocked, clients cannot use it anymore.
     """
+    objects = OrganizationAPIKeyManager()
+
     organization = models.ForeignKey(
         verbose_name='Идентификатор организации',
         to=Organization,

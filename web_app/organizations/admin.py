@@ -5,4 +5,5 @@ from organizations.models import Organization
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ("state", )
+    search_fields = ("name", "id")
