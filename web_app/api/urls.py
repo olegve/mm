@@ -1,11 +1,13 @@
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from api.views import ping
-from web_app.urls import router
 
-app_name = "api"
+
+router = DefaultRouter()
 
 urlpatterns = [
     path('', include(router.urls)),
-    path("ping/", ping, name='ping'),
+    path("ping/", ping, name="ping"),
 ]
+

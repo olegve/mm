@@ -44,7 +44,7 @@ class APIKeyFilter(SimpleListFilter):
         if not self.value():
             return queryset
         filter_queryset = (
-                Q(revoked=False) & Q(blocked=False) &
+                Q(revoked=False) & Q(blocked=False) & Q(organization__state=ACTIVE) &
                 (Q(expiry_date__isnull=True) | Q(expiry_date__gte=datetime.now().astimezone()))
         )
         if self.value().lower() == 'active':

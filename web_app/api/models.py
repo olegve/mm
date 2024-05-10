@@ -3,6 +3,7 @@ from django.db.models import Q
 from rest_framework_api_key.models import AbstractAPIKey
 
 from api.api_key import OrganizationAPIKeyManager
+from core.organization_state import ACTIVE
 from organizations.models import Organization
 
 
@@ -63,7 +64,8 @@ class OrganizationAPIKey(AbstractAPIKey):
 
     @property
     def is_active(self) -> bool:
-        return not (self.blocked or self.revoked or self.has_expired)
+        """Возвращает True, если API ключ не заблокирован"""
+        return not (self.blocked or self.revoked or self.has_expired or (self.organization.state != ACTIVE))
 
     def __str__(self):
         return (

@@ -16,21 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter, APIRootView
+from rest_framework import routers
 
 
-class BaseAPIRootView(APIRootView):
-    """Базовые пути API приложения."""
-
-
-class RuDefaultRouter(DefaultRouter):
-    """Показывает описание главной страницы API на русском языке."""
-    APIRootView = BaseAPIRootView
-
-
-router = RuDefaultRouter()
+router = routers.DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include("api.urls")),
 ]
+
+urlpatterns += router.urls

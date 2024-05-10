@@ -8,4 +8,6 @@
     <toc-element topic="Overview.md"/>
     <toc-element topic="Reference.md"/>
     <toc-element topic="Черновик.md"/>
+    <toc-element topic="SMS-сообщения.md"/>
+    <toc-element topic="Структурная-схема.md"/>
 </instance-profile>

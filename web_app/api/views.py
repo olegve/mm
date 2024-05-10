@@ -1,6 +1,7 @@
 import logging
 
 from django.shortcuts import render
+from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -15,16 +16,7 @@ from organizations.models import Organization
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def ping(request) -> Response:
-    """Endpoint, доступный всем.
-    /api/ping/:
-        get:
-            summary: "GET api/ping/"
-            responses:
-                "200":
-                    description: "OK"
-
-    """
-    logging.info("PING")
+    """Endpoint, доступный всем."""
     time: Daytime = now()
     response_data = {
             'ping': 'pong',
