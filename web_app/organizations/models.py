@@ -1,7 +1,7 @@
 from typing import NamedTuple
 from django.db import models
 
-from core.organization_state import STATE_CHOICES, ACTIVE
+from core.organization_state import OrganizationStateChoice
 
 
 class Organization(models.Model):
@@ -37,8 +37,8 @@ class Organization(models.Model):
     )
     state = models.PositiveSmallIntegerField(
         verbose_name='Статус',
-        choices=STATE_CHOICES,
-        default=ACTIVE,
+        choices=OrganizationStateChoice,
+        default=OrganizationStateChoice.ACTIVE,
     )
 
     class Meta:
@@ -48,10 +48,11 @@ class Organization(models.Model):
         # constraints = ()
 
     def status_name(self) -> str:
-        return next((x[1] for x in STATE_CHOICES if x[0] == self.state), 'Состояние неопределено')
+        # return next((x[1] for x in STATE_CHOICES if x[0] == self.state), 'Состояние неопределено')
+        return str(OrganizationStateChoice(self.state).label)
 
     def __str__(self):
-        return f'{self.name}, ID: {self.id} ({self.status_name()})'
+        return f'{self.name}, id: {self.id} ({self.status_name()})'
 
 
 class OrganizationDetails(models.Model):
