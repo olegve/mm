@@ -16,7 +16,7 @@ class OrganizationAPIKeyManager(BaseAPIKeyManager):
     """
     def get_usable_keys(self):
         """Убираем из выдачи заблокированые ключи и неактивные компании."""
-        return super().get_usable_keys().filter(blocked=False, organization__state=ACTIVE)
+        return super().get_usable_keys().filter(blocked=False, organization__state=OrganizationStateChoice.ACTIVE)
 
 
 class APIKeyFilter(SimpleListFilter):
@@ -32,10 +32,7 @@ class APIKeyFilter(SimpleListFilter):
         appear in the URL query. The second element is the human-readable name for the option that will appear
         in the right sidebar.
         """
-        return (
-            ('active', 'Активны'),
-            ('not_active', 'Заблокированы')
-        )
+        return (('active', 'Активны'), ('not_active', 'Заблокированы'))
 
     def queryset(self, request, queryset):
         """

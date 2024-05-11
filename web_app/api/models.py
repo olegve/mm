@@ -1,8 +1,15 @@
+from typing import Optional
+
 from django.db import models
 from django.db.models import Q
+from django.utils.translation import gettext as _
+
 from rest_framework_api_key.models import AbstractAPIKey
 
+from pydantic import BaseModel, Field
+
 from api.api_key import OrganizationAPIKeyManager
+from core.message import PriorityChoice, PriorityEnum
 from core.organization_state import OrganizationStateChoice
 from organizations.models import Organization
 
@@ -76,4 +83,66 @@ class OrganizationAPIKey(AbstractAPIKey):
             f'имя api ключа: {self.name}, '
             f'{"активен" if self.is_active else "заблокирован"}'
         )
+
+
+class AbstractMessage(models.Model):
+    """Сообщение, полученое от заказчика посредством REST API.
+
+         Attributes:
+            message(str):
+                Текст сообщения о проблеме.  Обязательное поле.
+            note(str):
+                Примечание к сообщению.  Опциональное поле.
+            building(str):
+                Здание из которого пришло сообщение.  Обязательное поле.
+            system(str):
+                Система, в которая требует к себе внимания.  Обязательное поле.
+            node(str):
+                Конкретный узел системы, на который нужно обратить внимание.  Обязательное поле.
+            priority(int):
+                Важность сообщения.  Обязательное поле.
+    """
+    message = models.CharField(max_length=250, verbose_name=_('Сообщение'), blank=False)
+    note = models.CharField(max_length=250, verbose_name=_('Примечание'), blank=True)
+    building = models.CharField(max_length=250, verbose_name=_('Здание'), blank=False)
+    system = models.CharField(max_length=150, verbose_name=_('Система'), blank=False)
+    node = models.CharField(max_length=150, verbose_name=_('Узел системы'), blank=False)
+    priority = models.PositiveSmallIntegerField(
+        verbose_name=_('Приоритет'),
+        choices=PriorityChoice,
+        default=PriorityChoice.NORMAL,
+        blank=False,
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Message(BaseModel):
+    """Сообщение, полученое от заказчика посредством REST API.
+
+         Attributes:
+            message(str):
+                Текст сообщения о проблеме.  Обязательное поле.
+            note(Optional[str]):
+                Примечание к сообщению.  Опциональное поле.
+            building(str):
+                Здание из которого пришло сообщение.  Обязательное поле.
+            system(str):
+                Система, в которая требует к себе внимания.  Обязательное поле.
+            node(str):
+                Конкретный узел системы, на который нужно обратить внимание.  Обязательное поле.
+            priority(int):
+                Важность сообщения.  Обязательное поле.
+    """
+    message: str = Field(max_length=250)
+    note: Optional[str] = Field(max_length=250, default=None)
+    building: str = Field(max_length=250)
+    system: str = Field(max_length=150)
+    node: str = Field(max_length=150)
+    priority: PriorityEnum = PriorityEnum.NORMAL
+
+
+class APIMessage(BaseModel):
+    message: Message
 

@@ -21,8 +21,6 @@ class Organization(models.Model):
                 Поле обязательно для заполнения.  Состояние по умолчанию - ACTIVE
     """
 
-
-
     id = models.CharField(
         verbose_name='Идентификатор',
         max_length=50,
