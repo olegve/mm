@@ -90,17 +90,17 @@ class AbstractMessage(models.Model):
 
          Attributes:
             message(str):
-                Текст сообщения о проблеме.  Обязательное поле.
+                Текст сообщения о проблеме.  *Обязательное поле*.
             note(str):
-                Примечание к сообщению.  Опциональное поле.
+                Примечание к сообщению.  *Опциональное поле*.
             building(str):
-                Здание из которого пришло сообщение.  Обязательное поле.
+                Здание из которого пришло сообщение.  *Обязательное поле*.
             system(str):
-                Система, в которая требует к себе внимания.  Обязательное поле.
+                Система, в которая требует к себе внимания.  *Обязательное поле*.
             node(str):
-                Конкретный узел системы, на который нужно обратить внимание.  Обязательное поле.
+                Конкретный узел системы, на который нужно обратить внимание.  *Обязательное поле*.
             priority(int):
-                Важность сообщения.  Обязательное поле.
+                Важность сообщения.  *Обязательное поле*.
     """
     message = models.CharField(max_length=250, verbose_name=_('Сообщение'), blank=False)
     note = models.CharField(max_length=250, verbose_name=_('Примечание'), blank=True)
@@ -118,28 +118,27 @@ class AbstractMessage(models.Model):
         abstract = True
 
 
-# TODO:  Сделать тесты на поле "subject"
 class Message(BaseModel):
-    """Сообщение, полученое от заказчика посредством REST API.
+    """Модель сообщения, получаемого посредством REST API. Наследуется от *BaseModel* библиотеки **Pydantic**.
 
          Attributes:
             message(str):
-                Текст сообщения о проблеме.  Обязательное поле.
-            subject(Optional[str])
-            :
+                Текст сообщения о проблеме.  *Обязательное поле*.
+            subject(Optional[str]):
+                Кратко содержание сути проблемы.  *Опциональное поле*.
             note(Optional[str]):
-                Примечание к сообщению.  Опциональное поле.
+                Примечание к сообщению.  *Опциональное поле*.
             building(str):
-                Здание из которого пришло сообщение.  Обязательное поле.
+                Здание из которого пришло сообщение.  *Обязательное поле*.
             system(str):
-                Система, в которая требует к себе внимания.  Обязательное поле.
+                Система, в которая требует к себе внимания.  *Обязательное поле*.
             node(str):
-                Конкретный узел системы, на который нужно обратить внимание.  Обязательное поле.
+                Конкретный узел системы, на который нужно обратить внимание.  *Обязательное поле*.
             priority(int):
-                Важность сообщения.  Обязательное поле.
+                Важность сообщения.  *Обязательное поле*.
     """
     message: str = Field(max_length=250)
-    subject: Optional[str] = Field(max_length=30, default=None)
+    subject: Optional[str] = Field(max_length=50, default=None)
     note: Optional[str] = Field(max_length=250, default=None)
     building: str = Field(max_length=250)
     system: str = Field(max_length=150)
@@ -147,6 +146,26 @@ class Message(BaseModel):
     priority: PriorityEnum = PriorityEnum.NORMAL
 
 
-class APIMessage(BaseModel):
+class APIMessageRawDatagram(BaseModel):
     message: Message
+
+
+class MessageMeta(BaseModel):
+    REMOTE_ADDR: Optional[str] = Field(max_length=250, default=None)
+    REMOTE_HOST: Optional[str] = Field(max_length=250, default=None)
+    HTTP_USER_AGENT: Optional[str] = Field(max_length=250, default=None)
+
+    CONTENT_LENGTH: Optional[int] = Field(default=None)
+    CONTENT_TYPE: Optional[str] = Field(max_length=250, default=None)
+
+    REQUEST_METHOD: Optional[str] = Field(max_length=250, default=None)
+    HTTP_HOST: Optional[str] = Field(max_length=250, default=None)
+    SERVER_PORT: Optional[int] = Field(default=None)
+    PATH_INFO: Optional[str] = Field(max_length=250, default=None)
+    SERVER_PROTOCOL: Optional[str] = Field(max_length=250, default=None)
+
+    HTTP_CACHE_CONTROL: Optional[str] = Field(max_length=250, default=None)
+    HTTP_ACCEPT: Optional[str] = Field(max_length=250, default=None)
+
+
 

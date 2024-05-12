@@ -51,6 +51,7 @@ class ApiMessageTestCase(APITestCase):
         data = json.dumps({
             "message": {
                 "message": "Большой перепад давления, возможно пора заменить фильтр",
+                "subject": "Это поле длиной не более 50 символов. 123456789012",
                 "note": "Примечания к сообщению",
                 "building": "Покровка, 5",
                 "system": "К10-В10",
@@ -293,4 +294,40 @@ class ApiMessageTestCase(APITestCase):
         response = client.generic(method="POST", path=f"{self.url}", data=data, content_type='application/json')
         self.assertEqual(status.HTTP_200_OK, response.status_code)
 
+    def test_optional_subject_field(self):
+        key = get_api_key_for_organization('Тест')
+        client = get_client_with_api_key_header(key.key)
 
+        # Пробуем запрос с нормальными данными
+        data = json.dumps({
+            "message": {
+                "message": "Большой перепад давления, возможно пора заменить фильтр",
+                "subject": "Это поле длиной не более 50 символов. 123456789012",
+                "note": "Примечания к сообщению",
+                "building": "Покровка, 5",
+                "system": "К10-В10",
+                "node": "воздушный фильтр №1",
+                "priority": 2
+            }
+        })
+        response = client.generic(method="POST", path=f"{self.url}", data=data, content_type='application/json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code, 'Правильное сообщение. Запрос должен проходить.')
+
+        # Пробуем запрос с полем "subject", размером больше, чем 50 разрешённых символов
+        data = json.dumps({
+            "message": {
+                "message": "Большой перепад давления, возможно пора заменить фильтр",
+                "subject": "Это поле длиной не более 50 символов. 123456789012!",
+                "note": "Примечания к сообщению",
+                "building": "Покровка, 5",
+                "system": "К10-В10",
+                "node": "воздушный фильтр №1",
+                "priority": 2
+            }
+        })
+        response = client.generic(method="POST", path=f"{self.url}", data=data, content_type='application/json')
+        self.assertEqual(
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            response.status_code,
+            'Слишком длинное поле "subject". Размер не более 50 символов. Запрос не должен проходить.'
+        )
