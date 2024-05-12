@@ -4,10 +4,9 @@ from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.test import APITestCase
-from rest_framework.test import APIClient
 
-from api.models import OrganizationAPIKey
-from organizations.models import Organization
+from core.tests.api_key import get_api_key_for_organization, get_api_key_for_blocked_organization
+from core.tests.client import get_client_with_api_key_header
 
 
 class ApiPingTestCase(APITestCase):
@@ -48,9 +47,20 @@ class ApiPingTestCase(APITestCase):
         self.assertEqual(status.HTTP_200_OK, response.status_code)
 
     def test_get_unknown_token_request(self):
-        client = APIClient()
-        headers = {'HTTP_X_API_KEY': 'Any APY Key'}
-        client.credentials(**headers)
+        client = get_client_with_api_key_header('Any API Key')
+        response = client.get(self.url)
+        self._required_response_fields_test(response)
+        self._required_response_organization_fields_test(response)
+        self.assertEqual(
+            'unknown',
+            response.data.get('organization').get('name'),
+            f'Значение поля ["organization"]["name"] должно быть "unknown".'
+        )
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_get_blocked_organization_token_request(self):
+        key = get_api_key_for_blocked_organization('Тест')
+        client = get_client_with_api_key_header(key.key)
         response = client.get(self.url)
         self._required_response_fields_test(response)
         self._required_response_organization_fields_test(response)
@@ -62,19 +72,15 @@ class ApiPingTestCase(APITestCase):
         self.assertEqual(status.HTTP_200_OK, response.status_code)
 
     def test_get_known_token_request(self):
-        organization_name = 'Test'
-        organization = Organization.objects.create(name=organization_name)
-        api_key, key = OrganizationAPIKey.objects.create_key(name="key-test-service", organization=organization)
-        client = APIClient()
-        headers = {'HTTP_X_API_KEY': key}
-        client.credentials(**headers)
+        key = get_api_key_for_organization('Тест')
+        client = get_client_with_api_key_header(key.key)
         response = client.get(self.url)
         self._required_response_fields_test(response)
         self._required_response_organization_fields_test(response)
         self.assertEqual(
-            organization_name,
+            key.organization_name,
             response.data.get('organization').get('name'),
-            f'Значение поля ["organization"]["name"] должно быть "{organization_name}".'
+            f'Значение поля ["organization"]["name"] должно быть "{key.organization_name}".'
         )
         self.assertEqual(status.HTTP_200_OK, response.status_code)
 

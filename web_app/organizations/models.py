@@ -26,6 +26,8 @@ class Organization(models.Model):
         max_length=50,
         db_index=True,
         primary_key=True,
+        blank=False,
+        null=False
     )
     name = models.CharField(
         verbose_name='Органицация',
@@ -46,7 +48,6 @@ class Organization(models.Model):
         # constraints = ()
 
     def status_name(self) -> str:
-        # return next((x[1] for x in STATE_CHOICES if x[0] == self.state), 'Состояние неопределено')
         return str(OrganizationStateChoice(self.state).label)
 
     def __str__(self):
