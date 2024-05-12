@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "api",
     "organizations",
     "users",
+    "input_queue",
 
 ]
 

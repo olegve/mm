@@ -9,6 +9,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from api.models import APIMessage
+from api.permissions import HasOrganizationAPIKey
 
 from api.services import ping_response
 
@@ -26,7 +27,7 @@ def ping(request) -> Response:
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([HasOrganizationAPIKey])
 def message(request) -> Response:
     try:
         msg = APIMessage.parse_raw(request.body)
