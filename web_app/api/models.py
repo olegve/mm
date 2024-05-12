@@ -118,12 +118,15 @@ class AbstractMessage(models.Model):
         abstract = True
 
 
+# TODO:  Сделать тесты на поле "subject"
 class Message(BaseModel):
     """Сообщение, полученое от заказчика посредством REST API.
 
          Attributes:
             message(str):
                 Текст сообщения о проблеме.  Обязательное поле.
+            subject(Optional[str])
+            :
             note(Optional[str]):
                 Примечание к сообщению.  Опциональное поле.
             building(str):
@@ -136,6 +139,7 @@ class Message(BaseModel):
                 Важность сообщения.  Обязательное поле.
     """
     message: str = Field(max_length=250)
+    subject: Optional[str] = Field(max_length=30, default=None)
     note: Optional[str] = Field(max_length=250, default=None)
     building: str = Field(max_length=250)
     system: str = Field(max_length=150)
