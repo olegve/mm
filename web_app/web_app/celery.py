@@ -1,6 +1,8 @@
+import logging
 import os
 import time
 
+from celery.app import shared_task
 from django.conf import settings
 
 from celery import Celery
@@ -28,4 +30,3 @@ app.autodiscover_tasks()
 def debug_task():
     time.sleep(10)
     print(f'Hello from debug task')
-

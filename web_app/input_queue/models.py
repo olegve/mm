@@ -1,3 +1,5 @@
+from django.contrib.postgres.indexes import GinIndex
+# from django.contrib.postgres.fields.jsonb import JSONField
 from django.utils.translation import gettext as _
 from django.db import models
 
@@ -29,12 +31,11 @@ class InputQueue(models.Model):
     meta = models.JSONField(
         verbose_name=_('Метаданные'),
         blank=False,
-
     )
     created = models.DateTimeField(
         verbose_name=_('Время создания'),
         blank=False,
-
+        auto_now_add=True
     )
     channel = models.PositiveSmallIntegerField(
         verbose_name=_('Канал'),
@@ -57,6 +58,6 @@ class InputQueue(models.Model):
     )
 
     class Meta:
-        pass
+        indexes = [GinIndex(name='JSONGinIndex', fields=['message', 'meta'])]
 
 
