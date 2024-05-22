@@ -1,5 +1,5 @@
 import logging
-from typing import Optional
+from typing import Optional, Union
 
 from django.db import models
 from django.db.models import Q
@@ -79,16 +79,24 @@ class OrganizationAPIKey(AbstractAPIKey):
         )
 
     @classmethod
-    def org_name(cls, sec_key: str) -> Optional[str]:
-        """Название организации, от которой пришёл запрос с API ключём.
+    def org(cls, sec_key: str) -> Optional[Organization]:
+        """Организация, от которой пришёл запрос с API ключём.
             :param sec_key: строка, содержащая API ключ, взятого из заголовка запроса (HTTP_X_API_KEY).
             :return: Название организации.
         """
         try:
             api_key = OrganizationAPIKey.objects.get_from_key(sec_key)
-            return api_key.organization.name
+            return api_key.organization
         except Exception as ex:
             return None
+
+    @classmethod
+    def org_name(cls, sec_key: str) -> Optional[str]:
+        """Название организации, от которой пришёл запрос с API ключём.
+            :param sec_key: строка, содержащая API ключ, взятого из заголовка запроса (HTTP_X_API_KEY).
+            :return: Название организации.
+        """
+        return cls.org(sec_key).name if cls.org(sec_key) else None
 
     @classmethod
     def org_id(cls, sec_key: str) -> Optional[str]:
@@ -96,11 +104,7 @@ class OrganizationAPIKey(AbstractAPIKey):
             :param sec_key: строка, содержащая API ключ, взятого из заголовка запроса (HTTP_X_API_KEY).
             :return: Идентификатор организации.
         """
-        try:
-            api_key = OrganizationAPIKey.objects.get_from_key(sec_key)
-            return api_key.organization.id
-        except Exception as ex:
-            return None
+        return cls.org(sec_key).id if cls.org(sec_key) else None
 
     @classmethod
     def print(cls):
@@ -180,7 +184,6 @@ class APIMessageRawDatagram(BaseModel):
 
 
 class MessageMeta(BaseModel):
-    REMOTE_ORGANIZATION_ID: Optional[str] = Field(max_length=50, default=None)
     REMOTE_ADDR: Optional[str] = Field(max_length=250, default=None)
     REMOTE_HOST: Optional[str] = Field(max_length=250, default=None)
     HTTP_USER_AGENT: Optional[str] = Field(max_length=250, default=None)
@@ -197,3 +200,7 @@ class MessageMeta(BaseModel):
     HTTP_CACHE_CONTROL: Optional[str] = Field(max_length=250, default=None)
     HTTP_ACCEPT: Optional[str] = Field(max_length=250, default=None)
 
+
+class Meta(BaseModel):
+    organization_id: str = Field(max_length=50)
+    data: Union[MessageMeta]

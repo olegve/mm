@@ -1,9 +1,12 @@
+import json
+
 from django.contrib.postgres.indexes import GinIndex
-# from django.contrib.postgres.fields.jsonb import JSONField
+from django.contrib.postgres.fields.jsonb import JSONField
 from django.utils.translation import gettext as _
 from django.db import models
 
 from core.input_channel import InputChannelChoice
+from organizations.models import Organization
 
 
 class InputQueue(models.Model):
@@ -23,10 +26,18 @@ class InputQueue(models.Model):
             task_completed(bool):
                 Указывает, было ли обработано поступившее сообщение и поставлено ли оно в очереди доставки потребителям.
     """
+    organization = models.ForeignKey(
+        verbose_name=_('Организация'),
+        to=Organization,
+        on_delete=models.CASCADE,
+        default=None,
+        null=True,
+        blank=False,
+        related_name='messages',
+    )
     message = models.JSONField(
         verbose_name=_('Сообщение'),
         blank=False,
-
     )
     meta = models.JSONField(
         verbose_name=_('Метаданные'),
@@ -44,20 +55,12 @@ class InputQueue(models.Model):
         default=InputChannelChoice.API_MESSAGE,
 
     )
-    next_task = models.UUIDField(
-        verbose_name=_('Номер задачи'),
-        blank=True,
-        null=True,
-        db_index=True,
-
-    )
-    task_completed = models.BooleanField(
-        verbose_name=_('Обработано'),
-        blank=False,
-        default=False,
+    chain = models.JSONField(
+        verbose_name=_('Цепочка задач'),
+        default=dict,
     )
 
     class Meta:
-        indexes = [GinIndex(name='JSONGinIndex', fields=['message', 'meta'])]
+        indexes = [GinIndex(name='JSONGinIndex', fields=['message', 'meta', 'chain'])]
 
 

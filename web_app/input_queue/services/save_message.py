@@ -4,18 +4,18 @@ import uuid
 from django.core import exceptions
 
 
-from api.models import APIMessageRawDatagram, MessageMeta
+from api.models import APIMessageRawDatagram, Meta
 from input_queue.models import InputQueue
 
 
-def save_to_input_queue(message: APIMessageRawDatagram, meta: MessageMeta) -> int:
+def save_to_input_queue(message: APIMessageRawDatagram, meta: Meta) -> int:
     """Создаёт запись в таблице базы данных.
         :param message: пришедшее через API сообщение
         :param meta: дополнительные данные к пришедшему сообщению
         :return: id созданой записи в таблице
     """
-    element = InputQueue.objects.create(message=message.model_dump_json(), meta=meta.model_dump_json())
-    return element.id
+    table_row = InputQueue.objects.create(message=message.model_dump_json(), meta=meta.model_dump_json())
+    return table_row.id
 
 
 def update_input_queue(db_id: int, task_id: str) -> None:
