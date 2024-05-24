@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'rest_framework_api_key',
 
     "api",
+    "input_queue",
     "organizations",
     "users",
-    "input_queue",
+    "web_start",
+
 
 ]
 
