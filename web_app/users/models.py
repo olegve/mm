@@ -6,7 +6,7 @@ from organizations.models import Organization
 
 
 class User(AbstractUser):
-    organisation = models.ForeignKey(
+    organization = models.ForeignKey(
         Organization,
         verbose_name=_('Организация'),
         on_delete=models.CASCADE,
@@ -28,6 +28,7 @@ class User(AbstractUser):
         verbose_name=_('Администратор организации'),
         default=False,
     )
+    REQUIRED_FIELDS = [f'{AbstractUser.EMAIL_FIELD}', "organization_id"]
 
     class Meta:
         db_table = 'auth_user'

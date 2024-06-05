@@ -7,7 +7,7 @@ from users.models import User
 # Register your models here.
 class CustomUserAdmin(UserAdmin):
     model = User
-    readonly_fields = ('organisation',)
+    readonly_fields = ('organization',)
 
 
 admin.site.register(User, CustomUserAdmin)
