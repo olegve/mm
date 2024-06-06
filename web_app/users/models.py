@@ -26,9 +26,12 @@ class User(AbstractUser):
     is_admin = models.BooleanField(
         verbose_name=_('Администратор организации'),
         default=False,
+        help_text=_("Отметьте, если пользователь является администратором в своей организации.")
     )
     REQUIRED_FIELDS = [f'{AbstractUser.EMAIL_FIELD}', "organization_id"]
 
     class Meta:
         db_table = 'auth_user'
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
