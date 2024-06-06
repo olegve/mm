@@ -11,7 +11,6 @@ class User(AbstractUser):
         verbose_name=_('Организация'),
         on_delete=models.CASCADE,
         related_name='users',
-        default="000000"
     )
     phone = models.CharField(
         verbose_name=_('Номер телефона'),
