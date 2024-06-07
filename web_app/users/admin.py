@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
     model = User
     list_display = ('organization', 'last_name', 'first_name', 'username', 'email', 'is_admin')
     list_display_links = ('last_name', 'first_name','username',)
-    search_fields = ('organization__name', 'last_name', 'first_name', 'email', 'username', )
+    search_fields = ('organization__name', 'organization__id', 'last_name', 'first_name', 'email', 'username', )
     ordering = ('organization', 'last_name', 'first_name', )
     list_filter = ("is_admin", "is_superuser", )
 
@@ -20,7 +20,7 @@ class CustomUserAdmin(UserAdmin):
             }
         ),
         (_('Personal info'), {
-            'fields': ('last_name', 'first_name', 'email', 'organization')
+                'fields': ('last_name', 'first_name', 'email', 'organization')
             }
         ),
         (_('Permissions'), {
