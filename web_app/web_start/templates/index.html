@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Система управления сообщкниями</title>
+    </head>
+
+    <body>
+        <div>
+            <h1>Привет!</h1>
+        </div>
+        <div>
+            Ты на авторизовался, сделай это пожалуйста!
+        </div>
+        <div>
+            {% if is_authenticated %}
+                <p>Вы авторизованы.</p>
+            {% else %}
+                <p>Вы не авторизованы.</p>
+            {% endif %}
+        </div>
+    </body>
+</html>

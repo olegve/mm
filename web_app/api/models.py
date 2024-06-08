@@ -1,4 +1,5 @@
-from typing import Optional
+import logging
+from typing import Optional, Union
 
 from django.db import models
 from django.db.models import Q
@@ -77,6 +78,38 @@ class OrganizationAPIKey(AbstractAPIKey):
             (self.organization.state != OrganizationStateChoice.ACTIVE)
         )
 
+    @classmethod
+    def org(cls, sec_key: str) -> Optional[Organization]:
+        """Организация, от которой пришёл запрос с API ключём.
+            :param sec_key: строка, содержащая API ключ, взятого из заголовка запроса (HTTP_X_API_KEY).
+            :return: Название организации.
+        """
+        try:
+            api_key = OrganizationAPIKey.objects.get_from_key(sec_key)
+            return api_key.organization
+        except Exception as ex:
+            return None
+
+    @classmethod
+    def org_name(cls, sec_key: str) -> Optional[str]:
+        """Название организации, от которой пришёл запрос с API ключём.
+            :param sec_key: строка, содержащая API ключ, взятого из заголовка запроса (HTTP_X_API_KEY).
+            :return: Название организации.
+        """
+        return cls.org(sec_key).name if cls.org(sec_key) else None
+
+    @classmethod
+    def org_id(cls, sec_key: str) -> Optional[str]:
+        """Идентификатор организации, от которой пришёл запрос с API ключём.
+            :param sec_key: строка, содержащая API ключ, взятого из заголовка запроса (HTTP_X_API_KEY).
+            :return: Идентификатор организации.
+        """
+        return cls.org(sec_key).id if cls.org(sec_key) else None
+
+    @classmethod
+    def print(cls):
+        logging.info("!!!!!!!")
+
     def __str__(self):
         return (
             f'{self.organization.name}, '
@@ -90,17 +123,17 @@ class AbstractMessage(models.Model):
 
          Attributes:
             message(str):
-                Текст сообщения о проблеме.  Обязательное поле.
+                Текст сообщения о проблеме.  *Обязательное поле*.
             note(str):
-                Примечание к сообщению.  Опциональное поле.
+                Примечание к сообщению.  *Опциональное поле*.
             building(str):
-                Здание из которого пришло сообщение.  Обязательное поле.
+                Здание из которого пришло сообщение.  *Обязательное поле*.
             system(str):
-                Система, в которая требует к себе внимания.  Обязательное поле.
+                Система, в которая требует к себе внимания.  *Обязательное поле*.
             node(str):
-                Конкретный узел системы, на который нужно обратить внимание.  Обязательное поле.
+                Конкретный узел системы, на который нужно обратить внимание.  *Обязательное поле*.
             priority(int):
-                Важность сообщения.  Обязательное поле.
+                Важность сообщения.  *Обязательное поле*.
     """
     message = models.CharField(max_length=250, verbose_name=_('Сообщение'), blank=False)
     note = models.CharField(max_length=250, verbose_name=_('Примечание'), blank=True)
@@ -119,23 +152,26 @@ class AbstractMessage(models.Model):
 
 
 class Message(BaseModel):
-    """Сообщение, полученое от заказчика посредством REST API.
+    """Модель сообщения, получаемого посредством REST API. Наследуется от *BaseModel* библиотеки **Pydantic**.
 
          Attributes:
             message(str):
-                Текст сообщения о проблеме.  Обязательное поле.
+                Текст сообщения о проблеме.  *Обязательное поле*.
+            subject(Optional[str]):
+                Кратко содержание сути проблемы.  *Опциональное поле*.
             note(Optional[str]):
-                Примечание к сообщению.  Опциональное поле.
+                Примечание к сообщению.  *Опциональное поле*.
             building(str):
-                Здание из которого пришло сообщение.  Обязательное поле.
+                Здание из которого пришло сообщение.  *Обязательное поле*.
             system(str):
-                Система, в которая требует к себе внимания.  Обязательное поле.
+                Система, в которая требует к себе внимания.  *Обязательное поле*.
             node(str):
-                Конкретный узел системы, на который нужно обратить внимание.  Обязательное поле.
+                Конкретный узел системы, на который нужно обратить внимание.  *Обязательное поле*.
             priority(int):
-                Важность сообщения.  Обязательное поле.
+                Важность сообщения.  *Обязательное поле*.
     """
     message: str = Field(max_length=250)
+    subject: Optional[str] = Field(max_length=50, default=None)
     note: Optional[str] = Field(max_length=250, default=None)
     building: str = Field(max_length=250)
     system: str = Field(max_length=150)
@@ -143,6 +179,28 @@ class Message(BaseModel):
     priority: PriorityEnum = PriorityEnum.NORMAL
 
 
-class APIMessage(BaseModel):
+class APIMessageRawDatagram(BaseModel):
     message: Message
 
+
+class MessageMeta(BaseModel):
+    REMOTE_ADDR: Optional[str] = Field(max_length=250, default=None)
+    REMOTE_HOST: Optional[str] = Field(max_length=250, default=None)
+    HTTP_USER_AGENT: Optional[str] = Field(max_length=250, default=None)
+
+    CONTENT_LENGTH: Optional[int] = Field(default=None)
+    CONTENT_TYPE: Optional[str] = Field(max_length=250, default=None)
+
+    REQUEST_METHOD: Optional[str] = Field(max_length=250, default=None)
+    HTTP_HOST: Optional[str] = Field(max_length=250, default=None)
+    SERVER_PORT: Optional[int] = Field(default=None)
+    PATH_INFO: Optional[str] = Field(max_length=250, default=None)
+    SERVER_PROTOCOL: Optional[str] = Field(max_length=250, default=None)
+
+    HTTP_CACHE_CONTROL: Optional[str] = Field(max_length=250, default=None)
+    HTTP_ACCEPT: Optional[str] = Field(max_length=250, default=None)
+
+
+class Meta(BaseModel):
+    organization_id: str = Field(max_length=50)
+    data: Union[MessageMeta]

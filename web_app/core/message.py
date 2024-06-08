@@ -1,21 +1,27 @@
-from typing import NamedTuple, Any
+# from abc import abstractmethod
+# from typing import NamedTuple, Any, Optional
 from enum import Enum, IntEnum
 
 from django.db import models
 from django.utils.translation import gettext as _
 
+# import api.models
+# from api.models import Message
+# from api.services.message import APIDataConverter
+# from core.input_channel import InputChannelChoice
+
 
 class PriorityEnum(IntEnum):
     """Поддерживаемые варианты приоритетов сообщений в системе."""
-    URGENT = 0
+    URGENT = 0  # 0 - Celery priority
     """Сверхвысокий приоритет.  Возможны катастрофические последствия."""
-    HIGH = 1
+    HIGH = 1    # 2 - Celery priority
     """Высокий приоритет.  Необходимо безотлагательно решить возникшую проблему"""
-    NORMAL = 2
+    NORMAL = 2  # 4 - Celery priority
     """Обычный приоритет."""
-    LOW = 3
+    LOW = 3     # 6 - Celery priority
     """Низкий приоритет.   Можно временно отложить решение проблемы."""
-    NO = 4
+    NO = 4      # 8 - Celery priority
     """Информационное сообщение. Проблемы отсутствуют."""
 
 
@@ -33,4 +39,10 @@ class PriorityChoice(models.IntegerChoices):
     """Информационное сообщение. Проблемы отсутствуют."""
     __empty__ = _("(Unknown)")
     """Пустое значение, котороко быть не должно"""
+
+
+
+
+
+
 

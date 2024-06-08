@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "management",
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,8 +46,11 @@ INSTALLED_APPS = [
     'rest_framework_api_key',
 
     "api",
+    "input_queue",
     "organizations",
     "users",
+    "web_start",
+
 
 ]
 
@@ -101,6 +106,8 @@ DATABASES = {
     }
 }
 
+
+AUTH_USER_MODEL = 'users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

@@ -16,7 +16,7 @@ class Organization(models.Model):
                 Название организации.
                 Установлены ограничения по длине.
                 Обязателбно для заполнения.
-            state(str):
+            state(int):
                 Состояние (статус) организации в системе.
                 Поле обязательно для заполнения.  Состояние по умолчанию - ACTIVE
     """
@@ -45,7 +45,6 @@ class Organization(models.Model):
         verbose_name = "Организация"
         verbose_name_plural = "Организации"
         ordering = ("name",)
-        # constraints = ()
 
     def status_name(self) -> str:
         return str(OrganizationStateChoice(self.state).label)
