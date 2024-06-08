@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from django.utils.translation import gettext as _
 from django.db import models
 
 from core.organization_state import OrganizationStateChoice
@@ -11,18 +11,18 @@ class Organization(models.Model):
             id(str):
                 Уникальный идентификатор организации, например, для России - ИНН.
                 Установлены ограничения по длине и уникальности.
-                Поле являтся первичным ключом таблицы
+                Поле являться первичным ключом таблицы.
             name(str):
                 Название организации.
                 Установлены ограничения по длине.
-                Обязателбно для заполнения.
+                Обязательно для заполнения.
             state(int):
                 Состояние (статус) организации в системе.
                 Поле обязательно для заполнения.  Состояние по умолчанию - ACTIVE
     """
 
     id = models.CharField(
-        verbose_name='Идентификатор',
+        verbose_name=_('ИНН'),
         max_length=50,
         db_index=True,
         primary_key=True,
@@ -30,7 +30,7 @@ class Organization(models.Model):
         null=False
     )
     name = models.CharField(
-        verbose_name='Органицация',
+        verbose_name='Организация',
         max_length=200,
         blank=False,
         null=False,
