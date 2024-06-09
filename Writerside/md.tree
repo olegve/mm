@@ -6,6 +6,9 @@
                   name="mm docks" start-page="Overview.md">
 
     <toc-element topic="Overview.md"/>
+    <toc-element topic="Каналы-связи-поступающих-сообщений.md">
+        <toc-element topic="Поступающие-сообщения-API.md"/>
+    </toc-element>
     <toc-element topic="Reference.md"/>
     <toc-element topic="Черновик.md"/>
     <toc-element topic="SMS-сообщения.md"/>

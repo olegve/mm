@@ -1,11 +1,24 @@
-# Overview
+# Описание системы
 
-Overview articles give background information and provide context to a particular subject.
-Their goal is to explain a concept, not to teach or give instructions.
+Система предназначена для получения сообщений от информационный систем по 
+[различным каналам](Каналы-связи-поступающих-сообщений.md), таким как:
+    
+- API
+- SMS
+- e-mail
 
-## What is product/service/concept
+и других.  Сообщения обрабатываются и отсылаются пользователям по различным каналам:
 
-Provide some background and context, explain choices and alternatives.
+- API
+- SMS
+- e-mail
+- Telegram
+
+## Концепция
+
+Принятые сообщения приводятся, по возможности, к единому внутреннему формату и обрабатываются
+пользовательскими фильтрами.  Результатом работы каждого фильтра является некоторая задача, а именно
+канал связи, по которому будет отправлено это сообщение и список адресатов, которым сообщение будет направлено.
 
 ## Glossary
 
