@@ -1,19 +1,20 @@
 # Поступающие сообщения: API
 
-A How-to article is an action-oriented type of document.
-It explains how to perform a specific task or solve a problem, and usually contains a sequence of steps.
-Start with a short introductory paragraph that explains what users will accomplish by following this procedure,
-what they need to perform it for, or define the target audience of the doc.
+API состоит из двух end-point:
+1. `GET /ping`
+2. `POST /message`
 
 > **Highlight important information**
 >
-> You can change the element to *tip* or *warning* by renaming the style attribute below.
+> You can change the element to *tip*, *note* or *warning* by renaming the style attribute below.
 >
-{style="note"}
+{style="warning"}
 
 ## Before you start
 
 It is good practice to list the prerequisites that are required or recommended.
+
+`ssgerg`
 
 Make sure that:
 - First prerequisite
@@ -35,3 +36,4 @@ Some introductory information.
    - List item
    - List item
    - List item
+
