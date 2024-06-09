@@ -12,7 +12,26 @@ from organizations.models import Organization
 
 
 class AbstractInputDataHandler:
-    """Абстрактный класс, конвертер входных данных"""
+    """ Абстрактный класс, конвертер входных данных.
+
+        Основной функционал выполняет метод **convert**, который получает входные данные и преобразует их
+        во внутреннее представление.
+
+        Attributes:
+            message(Message):
+                Полученное (уже преобразованное) сообщение от пользователя.
+            extra_data(Any | None):
+                Дополнительная информация к сообщению (если есть).
+            meta(Meta):
+                Метаданные.
+            is_valid(bool):
+                Показывает, валидность полученых данных.  Если валидных данных нет, то при обращении к
+                свойствам **message**, **extra_data** и **meta** выбрасывается исключение.
+            error(dict[str, Any]):
+                Содержит сообщение об ошибке, если при вызове метода **convert** не удалось привести входные
+                данные к необходимому виду.
+
+    """
     def __init__(self):
         self._message: Optional[Message] = None
         self._extra_data: Optional[Any] = None
@@ -67,6 +86,10 @@ class AbstractInputDataHandler:
         """Конвертирует входные данные в Message. Если это невозможно, то выбрасывает исключение"""
 
     def convert(self, message: Any, meta: Any, extra: Optional[Any] = None) -> None:
+        """ Конвертирует входные данные во внутренние типы данных объекта.
+            Если не получается, то устанавливает is_valid в False и записывает сообщение
+            об ошибке в свойство error.
+        """
         try:
             self._message = self._convert_to_message(message)
             self._extra_data = self._convert_to_extra_data(extra)
