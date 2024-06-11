@@ -15,6 +15,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "/static/"
+
 DJANGO_PROJECT_NAME = os.getenv('DJANGO_PROJECT_NAME', default='web_app'),
 DJANGO_SETTINGS_MODULE = os.getenv('DJANGO_SETTINGS_MODULE', default='web_app.settings')
 
@@ -45,12 +48,25 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_api_key',
 
+    # AllAuth
+    'allauth',
+    'allauth.account',
+    # # Optional -- requires install using `django-allauth[socialaccount]`.
+    # 'allauth.socialaccount',
+    # # ... include the providers you want to enable:
+    # 'allauth.socialaccount.providers.auth0',
+    # 'allauth.socialaccount.providers.odnoklassniki',
+    # 'allauth.socialaccount.providers.openid',
+    # 'allauth.socialaccount.providers.openid_connect',
+    # 'allauth.socialaccount.providers.vk',
+    # 'allauth.socialaccount.providers.yandex',
+
+
     "api",
     "input_queue",
     "organizations",
     "users",
     "web_start",
-
 
 ]
 
@@ -62,6 +78,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Add the account middleware for AllAuth:
+    "allauth.account.middleware.AccountMiddleware",
+
 ]
 
 ROOT_URLCONF = 'web_app.urls'
@@ -73,10 +93,14 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                # Already defined Django-related contexts here
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -126,6 +150,29 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# # AllAuth.  Provider specific settings
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         # For each OAuth based provider, either add a ``SocialApp``
+#         # (``socialaccount`` app) containing the required client
+#         # credentials, or list them here:
+#         'APP': {
+#             'client_id': '123',
+#             'secret': '456',
+#             'key': ''
+#         }
+#     }
+# }
+
 
 
 # Internationalization
@@ -216,7 +263,6 @@ LOGGING = {
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-
 
 CACHES = {
     "default": {

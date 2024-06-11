@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Система управления сообщкниями</title>
+        <title>Система управления сообщениями</title>
     </head>
 
     <body>
@@ -10,13 +10,13 @@
             <h1>Привет!</h1>
         </div>
         <div>
-            Ты на авторизовался, сделай это пожалуйста!
-        </div>
-        <div>
-            {% if is_authenticated %}
-                <p>Вы авторизованы.</p>
+            {% if user.is_authenticated %}
+                <p>
+                    <span>{{ user.first_name }} {{ user.last_name }},</span>
+                    вы авторизованы.
+                </p>
             {% else %}
-                <p>Вы не авторизованы.</p>
+                <p>Ты не авторизовался, сделай это, пожалуйста!</p>
             {% endif %}
         </div>
     </body>

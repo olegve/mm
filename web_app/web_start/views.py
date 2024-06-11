@@ -12,6 +12,7 @@ def index(request):
     users = User.objects.all()
     for user in users:
         logging.info(f'USER: {user.username}')
-    context = {"is_authenticated": request.user.is_authenticated}
+    context = {"user": request.user}
+    logging.info(f'USER IS: {request.user}, is_authenticated: {request.user.is_authenticated}')
     return render(request, "index.html", context)
 

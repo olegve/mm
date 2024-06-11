@@ -9,7 +9,10 @@ django-filter==24.2
 Markdown==3.6
 
 # Django REST Framework API Key
-djangorestframework-api-key==3.0.0
+djangorestframework-api-key==3.*
+
+# AllAuth
+django-allauth[socialaccount]==0.63.3
 
 # Для цветного logger.
 colorlog==6.8.2
@@ -23,3 +26,4 @@ celery_singleton==0.3.1
 flower==2.0.1
 
 pydantic==2.7.3
+

@@ -18,5 +18,14 @@ RUN apt install libpq5
 
 RUN pip install -r /temp/requirements.txt
 
+# Без этой строчки команда Django manage.py collectstatic выдаёт Permission error
+RUN chmod a+rwx -R /${django}
+
+RUN chmod +x /${django}/run_app.sh
+
+# Запускаемся от имени ove почему-то
 RUN adduser --disabled-password ove
 USER ove
+
+ENTRYPOINT ["/web_app/run_app.sh"]
+
