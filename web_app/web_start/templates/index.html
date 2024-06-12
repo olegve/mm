@@ -7,6 +7,31 @@
 
     <body>
         <div>
+            <strong>Меню:</strong>
+            <ul>
+                {% if not user.is_authenticated %}
+                    <li>
+                        <a href="/accounts/login/">Войти</a>
+                    </li>
+                    <li>
+                        <a href="/accounts/signup/">Зарегестрироваться</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="/accounts/email/">Изменить E-mail</a>
+                    </li>
+                    <li>
+                        <a href="/accounts/password/change/">Изменить пароль</a>
+                    </li>
+
+                    <li>
+                        <a href="/accounts/logout/">Выйти</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div>
             <h1>Привет!</h1>
         </div>
         <div>

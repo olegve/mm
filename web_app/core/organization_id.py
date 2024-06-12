@@ -9,7 +9,12 @@ def is_inn_valid(id: str) -> bool:
 
     if not isinstance(id, str):
         return False
-    inn_as_list_of_int = [int(x) for x in id]
+    if id == "0000000000" or id == "000000000000":
+        return False
+    try:
+        inn_as_list_of_int = [int(x) for x in id]
+    except ValueError as er:
+        return False
     weight = [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]
     control_sum = inn_as_list_of_int[-1]
     match len(inn_as_list_of_int):
@@ -29,5 +34,10 @@ if __name__ == '__main__':
     print(is_inn_valid("1234567894310"))
     print(is_inn_valid("12345678"))
     print(is_inn_valid(12345678))
+
+    # id = "986bfh12"
+    # inn_as_list_of_int = [int(x) for x in id]
+    # print(inn_as_list_of_int)
+
 
 

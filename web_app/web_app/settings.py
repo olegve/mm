@@ -21,6 +21,8 @@ STATIC_URL = "/static/"
 DJANGO_PROJECT_NAME = os.getenv('DJANGO_PROJECT_NAME', default='web_app'),
 DJANGO_SETTINGS_MODULE = os.getenv('DJANGO_SETTINGS_MODULE', default='web_app.settings')
 
+SITE_ID = 1
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -61,11 +63,12 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.vk',
     # 'allauth.socialaccount.providers.yandex',
 
-
     "api",
     "input_queue",
     "organizations",
     "users",
+    "user_auth",
+
     "web_start",
 
 ]
@@ -159,6 +162,15 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+ACCOUNT_FORMS = {
+    'signup': 'user_auth.forms.CustomSignupForm',
+}
+
+ACCOUNT_ADAPTER = "user_auth.adapter.AccountAdapter"
+# ACCOUNT_EMAIL_VERIFICATION = None
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/"
+
 # # AllAuth.  Provider specific settings
 # SOCIALACCOUNT_PROVIDERS = {
 #     'google': {
@@ -173,6 +185,7 @@ AUTHENTICATION_BACKENDS = [
 #     }
 # }
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Internationalization
@@ -190,7 +203,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
