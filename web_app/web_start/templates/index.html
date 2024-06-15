@@ -2,21 +2,46 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Система управления сообщкниями</title>
+        <title>Система управления сообщениями</title>
     </head>
 
     <body>
         <div>
+            <strong>Меню:</strong>
+            <ul>
+                {% if not user.is_authenticated %}
+                    <li>
+                        <a href="/accounts/login/">Войти</a>
+                    </li>
+                    <li>
+                        <a href="/accounts/signup/">Зарегестрироваться</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="/accounts/email/">Изменить E-mail</a>
+                    </li>
+                    <li>
+                        <a href="/accounts/password/change/">Изменить пароль</a>
+                    </li>
+
+                    <li>
+                        <a href="/accounts/logout/">Выйти</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div>
             <h1>Привет!</h1>
         </div>
         <div>
-            Ты на авторизовался, сделай это пожалуйста!
-        </div>
-        <div>
-            {% if is_authenticated %}
-                <p>Вы авторизованы.</p>
+            {% if user.is_authenticated %}
+                <p>
+                    <span>{{ user.first_name }} {{ user.last_name }},</span>
+                    вы авторизованы.
+                </p>
             {% else %}
-                <p>Вы не авторизованы.</p>
+                <p>Ты не авторизовался, сделай это, пожалуйста!</p>
             {% endif %}
         </div>
     </body>

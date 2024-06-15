@@ -9,9 +9,10 @@ from users.models import User
 
 
 def index(request):
-    users = User.objects.all()
-    for user in users:
-        logging.info(f'USER: {user.username}')
-    context = {"is_authenticated": request.user.is_authenticated}
+    context = {"user": request.user}
     return render(request, "index.html", context)
 
+
+def test(request):
+    context = {"user": request.user, "title": "Тестовая страница"}
+    return render(request, "base.html", context)

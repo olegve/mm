@@ -18,12 +18,13 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      - static:/${DJANGO_PROJECT_NAME}/static/
       # Смотри Dockerfile
       # Пробрасываем локальную папку приложения Django в docker.
       # При изменении кода не нужно перестраивать контейнер.
       - ./${DJANGO_PROJECT_NAME}:/${DJANGO_PROJECT_NAME}
-    command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+#    command: >
+#      sh -c "python manage.py runserver 0.0.0.0:8000"
     env_file:
       - .env
     depends_on:

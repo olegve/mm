@@ -10,7 +10,7 @@ API состоит из двух end-point:
 >
 {style="warning"}
 
-## Before you start
+## /ping
 
 It is good practice to list the prerequisites that are required or recommended.
 

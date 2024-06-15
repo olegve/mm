@@ -25,6 +25,9 @@ urlpatterns = [
     path('', include('web_start.urls')),
     path('admin/', admin.site.urls),
     path("api/", include("api.urls")),
+
+    # AllAuth
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += router.urls
