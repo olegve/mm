@@ -1,24 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Титульная страница{% endblock title%}</title>
+    <title>{% block title %}Почта{% endblock title%}</title>
 </head>
 <body>
     <header role="banner">
         <!-- Логотип системы или организации -->
         <div role="img">
-            {% block logo %}{% endblock logo%}
+            {% block logo %}
+                <img src="{% static "images/postman.jpeg" %}" alt="MMS" >
+            {% endblock logo%}
         </div>
+        <!--  -->
         <div role="marquee">
             {% block header %}
-                <h1><a href="http://www.lenta.ru/">Лента</a></h1>
+                <h1>Система управления сообщениями</h1>
             {% endblock header%}
+        </div>
+        <!-- либо аутентифицированый пользователь, либо приглашение для регистрации/аутентификации-->
+        <div role="toolbar">
+            Пользователь системой
         </div>
     </header>
 
     <nav role="navigation">
         {% block nav %}
+            <div>Меню</div>
             <a href = "https://www.tutorialspoint.com/index.htm">Home</a>
             <a href = "https://www.tutorialspoint.com/codingground.htm">Coding Ground</a>
             <a href = "https://www.tutorialspoint.com/about/about_careers.htm">Jobs</a>
