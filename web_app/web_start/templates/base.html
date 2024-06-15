@@ -2,59 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{{ title }}{% endblock %}</title>
-
-    <style>
-        header {
-            background-color:lightblue;
-            color:white;
-            padding:10px;
-        }
-        header a {
-            color:whitesmoke;
-            font-size: 20px;
-            margin-right: 15px;
-        }
-        header a:hover{
-            background-color: darkcyan;
-        }
-        nav {
-            background-color:darkseagreen;
-            color:white;
-            padding:20px;
-        }
-        a {
-            color:cadetblue;
-            font-size: 20px;
-            margin-right: 15px;
-        }
-        a:hover{
-            background-color: lightblue;
-        }
-        .demo {
-            font-size:30px;
-            color:seagreen;
-        }
-   </style>
-
+    <title>{% block title %}Титульная страница{% endblock title%}</title>
 </head>
 <body>
-    <header>
-        {% block header %}
-            <h1><a href="http://www.examplesite.com/">Самый сайт</a></h1>
-        {% endblock header%}
+    <header role="banner">
+        <!-- Логотип системы или организации -->
+        <div role="img">
+            {% block logo %}{% endblock logo%}
+        </div>
+        <div role="marquee">
+            {% block header %}
+                <h1><a href="http://www.lenta.ru/">Лента</a></h1>
+            {% endblock header%}
+        </div>
     </header>
 
-    <div id="sidebar">
-        {% block sidebar %}
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/blog/">Blog</a></li>
-            </ul>
-        {% endblock sidebar%}
-    </div>
-
-    <h2 class="demo">Tutorialspoint</h2>
     <nav role="navigation">
         {% block nav %}
             <a href = "https://www.tutorialspoint.com/index.htm">Home</a>
@@ -66,11 +28,24 @@
         {% endblock nav%}
     </nav>
 
-    <div id="content">
-        {% block content %}{% endblock content%}
-    </div>
 
-    <footer>
+    <h2 class="demo">Tutorialspoint</h2>
+
+
+    <main role="main">
+        {% block content %}{% endblock content%}
+    </main>
+
+    <aside>
+        {% block sidebar %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog/">Blog</a></li>
+            </ul>
+        {% endblock sidebar%}
+    </aside>
+
+    <footer role="contentinfo">
         {% block footer %}
             <p>
                 <a href="/license">Лицензионное соглашение</a><br/>

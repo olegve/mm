@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+
+    <style>
+        header {
+            background-color:lightblue;
+            color:white;
+            padding:10px;
+        }
+        header a {
+            color:whitesmoke;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        header a:hover{
+            background-color: darkcyan;
+        }
+        nav {
+            background-color:darkseagreen;
+            color:white;
+            padding:20px;
+        }
+        a {
+            color:cadetblue;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        a:hover{
+            background-color: lightblue;
+        }
+        .demo {
+            font-size:30px;
+            color:seagreen;
+        }
+   </style>
+
+</head>
+<body>
+    <header>
+        {% block header %}
+            <h1><a href="http://www.examplesite.com/">Самый сайт</a></h1>
+        {% endblock header%}
+    </header>
+
+    <div id="sidebar">
+        {% block sidebar %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog/">Blog</a></li>
+            </ul>
+        {% endblock sidebar%}
+    </div>
+
+    <h2 class="demo">Tutorialspoint</h2>
+    <nav role="navigation">
+        {% block nav %}
+            <a href = "https://www.tutorialspoint.com/index.htm">Home</a>
+            <a href = "https://www.tutorialspoint.com/codingground.htm">Coding Ground</a>
+            <a href = "https://www.tutorialspoint.com/about/about_careers.htm">Jobs</a>
+            <a href = "https://www.tutorialspoint.com/whiteboard.htm">Whiteboard</a>
+            <a href = "https://www.tutorialspoint.com/online_dev_tools.htm">Tools</a>
+            <a href = "https://www.tutorialspoint.com/business/index.asp">Corporate Training</a>
+        {% endblock nav%}
+    </nav>
+
+    <div id="content">
+        {% block content %}{% endblock content%}
+    </div>
+
+    <footer>
+        {% block footer %}
+            <p>
+                <a href="/license">Лицензионное соглашение</a><br/>
+                Copyright © 2016. SomeSite.com
+            </p>
+        {% endblock footer%}
+    </footer>
+</body>
+</html>
