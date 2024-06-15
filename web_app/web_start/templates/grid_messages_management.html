@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block  grid_definition %}
+    grid-template-columns: 65px 235px 1fr 400px;
+    grid-template-rows: 65px 50px 1fr 50px;
+{% endblock grid_definition %}
+
+
+{% block grid_areas %}
+    grid-template-areas: 'avatar header header user'
+                        'aside aside menu menu'
+                        'aside aside content content'
+                        'footer footer footer footer';
+{% endblock grid_areas %}
+
+
+{% block grid_area_definition %}
+    <!-- Логотип системы или организации -->
+    <div id="avatar" role="img">
+        {% block logo %}{% include "base_avatar.html" %}{% endblock logo %}
+    </div>
+
+    <!--  -->
+    <header role="banner">
+        {% block header %}{% include "base_header.html" %}{% endblock header %}
+    </header>
+
+    <!-- либо аутентифицированый пользователь, либо приглашение для регистрации/аутентификации-->
+    <div id="user" role="toolbar">
+        {% block auth_user %}{% include "base_user_toolbar.html" %}{% endblock auth_user %}
+    </div>
+
+    <!--  -->
+    <nav>
+        {% block nav %}{% include "base_navigation.html" %}{% endblock nav %}
+    </nav>
+
+    <!--  -->
+    <aside>
+        {% block sidebar %}{% include "base_sidebar.html" %}{% endblock sidebar %}
+    </aside>
+
+    <!--  Основное содержание сайта -->
+    <main>
+        {% block content %}{% include "base_main.html" %}{% endblock content %}
+    </main>
+
+    <!--  -->
+    <footer>
+        {% block footer %}{% include "base_footer.html" %}{% endblock footer %}
+    </footer>
+{% endblock grid_area_definition %}

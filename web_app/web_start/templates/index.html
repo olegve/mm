@@ -1,48 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Система управления сообщениями</title>
-    </head>
+{% extends base %}
 
-    <body>
-        <div>
-            <strong>Меню:</strong>
-            <ul>
-                {% if not user.is_authenticated %}
-                    <li>
-                        <a href="/accounts/login/">Войти</a>
-                    </li>
-                    <li>
-                        <a href="/accounts/signup/">Зарегестрироваться</a>
-                    </li>
-                {% else %}
-                    <li>
-                        <a href="/accounts/email/">Изменить E-mail</a>
-                    </li>
-                    <li>
-                        <a href="/accounts/password/change/">Изменить пароль</a>
-                    </li>
+{% block title %}{{ title }}{% endblock title %}
 
-                    <li>
-                        <a href="/accounts/logout/">Выйти</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+{% block grid_areas %}
+    {% if user.is_authenticated %}
+        grid-template-areas: 'avatar header header user'
+                            'aside aside menu menu'
+                            'aside aside content content'
+                            'footer footer footer footer';
+    {% else %}
+        grid-template-areas: 'avatar header header user'
+                            'aside aside content content'
+                            'aside aside content content'
+                            'footer footer footer footer';
+    {% endif %}
+{% endblock grid_areas %}
 
-        <div>
-            <h1>Привет!</h1>
-        </div>
-        <div>
-            {% if user.is_authenticated %}
-                <p>
-                    <span>{{ user.first_name }} {{ user.last_name }},</span>
-                    вы авторизованы.
-                </p>
-            {% else %}
-                <p>Ты не авторизовался, сделай это, пожалуйста!</p>
-            {% endif %}
-        </div>
-    </body>
-</html>
+{% block page_css %}
+    {% if not user.is_authenticated %}
+        <style>
+            .container > nav {
+                display: none;
+            }
+        </style>
+    {% endif %}
+{% endblock page_css %}
+
+{% block auth_user %}
+    {% if user.is_authenticated %}
+        {{ user.last_name }} {{ user.first_name }}<br>
+        <a href="/accounts/logout/">Выйти из системы</a>
+    {% else %}
+        <a href="/accounts/login/">Войти в систему</a><br>
+        <a href="/accounts/signup/">Зарегестрироваться</a>
+    {% endif %}
+{% endblock auth_user %}

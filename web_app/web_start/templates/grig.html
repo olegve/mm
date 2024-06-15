@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+<!--        .container {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(6, 1fr);-->
+<!--            grid-template-rows: 200px;-->
+<!--            background-color: beige;-->
+<!--            gap: 10px;-->
+<!--        }-->
+<!--        .container > div {-->
+<!--            background-color: green;-->
+<!--            margin: 10px;-->
+<!--        }-->
+<!--        #one {-->
+<!--            grid-column: 1/3;-->
+<!--            grid-row: 1/4;-->
+<!--        }-->
+
+<!--        .container{-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(3, 1fr);-->
+<!--            grid-template-rows: repeat(5, 100px);-->
+<!--            background-color: beige;-->
+<!--            gap: 10px-->
+<!--        }-->
+<!--        .container > div {-->
+<!--            background-color: green;-->
+<!--        }-->
+<!--        #one {-->
+<!--            grid-column: 1/3;-->
+<!--            grid-row: 1/4;-->
+<!--        }-->
+<!--        #two {-->
+<!--            grid-row: 1/3;-->
+<!--        }-->
+<!--        #five {-->
+<!--            grid-column: 4/2;-->
+<!--        }-->
+<!--        #seven {-->
+<!--            grid-row: 6/1;-->
+<!--        }-->
+
+        .container {
+            display: grid;
+            grid-template-columns:  300px 1fr 1fr;
+            grid-template-rows: 50px 50px 1fr 1fr 1fr 100px 50px;
+            background-color: beige;
+            gap: 10px;
+            grid-template-areas: 'header header header'
+                                 'nav nav nav'
+                                 'aside content content'
+                                 'aside content content'
+                                 'aside section section'
+                                 'aside section section'
+                                 'footer footer footer';
+        }
+        .container > div {
+            background-color: green;
+            font-size: 40px;
+        }
+        #one {
+            grid-area: header;
+        }
+        #two {
+            grid-area: nav;
+        }
+        #three {
+            grid-area: aside;
+        }
+        #four {
+            grid-area: content;
+        }
+        #five {
+            grid-area: section;
+        }
+        #six {
+            grid-area: footer;
+        }
+
+
+    </style>
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <div id="avatar">Image</div>
+        <div id="one">Header</div>
+        <div id="two">Nav</div>
+        <div id="three">
+            Aside<br>
+            wfqwefqwe  owij pwij iwj fpiwej fiwjfi wje iwjer iwejr iwjeri wuj eroijweoriujwoier
+            pi uweiro jwioer jiowe rjiwjr wiru wiru jiweur joiwurj iwejr piw er
+
+        </div>
+        <div id="four">
+            <div>
+            Content <br>
+                dfdfgd dsfgdsfg sdfgsdf sdfg erth erth erth reth erth erthr
+            dfdfgd dsfgdsfg sdfgsdf sdfg erth erth erth reth erth erthr
+            dfdfgd dsfgdsfg sdfgsdf sdfg erth erth erth reth erth erthr
+                йцуйцу
+
+            </div>
+        </div>
+        <div id="five">Section</div>
+        <div id="six">Footer</div>
+    </div>
+
+<!--    <div class="container">-->
+<!--        <div id="one">Image One</div>-->
+<!--        <div id="two">Image Two</div>-->
+<!--        <div id="three">Image Three</div>-->
+<!--        <div id="four">Image Four</div>-->
+<!--        <div id="five">Image Five</div>-->
+<!--        <div id="six">Image Six</div>-->
+<!--        <div id="seven">Image Seven</div>-->
+<!--        <div id="eight">Image Eight</div>-->
+<!--        <div id="nine">Image Nine</div>-->
+<!--    </div>-->
+</body>
+</html>

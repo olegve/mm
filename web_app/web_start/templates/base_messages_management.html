@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block page_meta %}{% endblock page_meta %}
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        .site {
+            width: 90%;
+        }
+
+        .container {
+            display: grid;
+            {% block  grid_definition %}
+                grid-template-columns: 65px 235px 1fr 400px;
+                grid-template-rows: 65px 50px 1fr 50px;
+            {% endblock grid_definition %}
+            {% block grid_areas %}
+                grid-template-areas: 'avatar header header user'
+                                     'aside aside menu menu'
+                                     'aside aside content content'
+                                     'footer footer footer footer';
+            {% endblock grid_areas %}
+        }
+        .container > #avatar {
+            grid-area: avatar;
+        }
+        .container > #user {
+            grid-area: user;
+        }
+        .container > aside {
+            grid-area: aside;
+        }
+        .container > header {
+            grid-area: header;
+        }
+        .container > main {
+            grid-area: content;
+        }
+        .container > nav {
+            grid-area: menu;
+        }
+        .container > footer {
+            grid-area: footer;
+        }
+
+        .container > * {
+            place-content: center;
+        }
+        .container > header > * {
+            text-align: center;
+        }
+        #user > div {
+            margin: auto;
+            text-align: right;
+            color: red;
+        }
+    </style>
+
+    {# Vendor styles #}
+    {% block vendor_css %}
+<!--        <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/vendor.css' %}" />-->
+    {% endblock %}
+
+    {# Global styles #}
+    {% block site_css %}
+<!--        <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/application.css' %}" />-->
+    {% endblock %}
+
+    {# Page-specific styles #}
+    {% autoescape off %}
+        {% block page_css %}{% endblock page_css %}
+    {% endautoescape %}
+
+    {% block extra_head %}
+        {# Extra header stuff (scripts, styles, metadata, etc) #}
+    {% endblock %}
+
+     <title>{% block title %}Почта{% endblock title%}</title>
+</head>
+<body>
+    <div class="site">
+        <div class="container">
+            <!-- Логотип системы или организации -->
+            <div id="avatar" role="img">
+                {% block logo %}
+                    <img height="65" width="65" src="{% static 'images/postman.jpeg' %}" alt="MMS"/>
+                {% endblock logo%}
+            </div>
+            <!--  -->
+            <header role="banner">
+                {% block header %}
+                    <h1>Система управления сообщениями</h1>
+                {% endblock header%}
+            </header>
+            <!-- либо аутентифицированый пользователь, либо приглашение для регистрации/аутентификации-->
+            <div id="user" role="toolbar">
+                <div>
+                    {% block auth_user %}
+                        Серебряков Владимир Вячеславович<br>
+                        Выход из системы
+                    {% endblock auth_user %}
+                </div>
+            </div>
+            <!--  -->
+            <nav>
+                {% block nav %}
+                    <a href = "https://www.tutorialspoint.com/index.htm">Home</a>
+                    <a href = "https://www.tutorialspoint.com/codingground.htm">Coding Ground</a>
+                    <a href = "https://www.tutorialspoint.com/about/about_careers.htm">Jobs</a>
+                    <a href = "https://www.tutorialspoint.com/whiteboard.htm">Whiteboard</a>
+                    <a href = "https://www.tutorialspoint.com/online_dev_tools.htm">Tools</a>
+                    <a href = "https://www.tutorialspoint.com/business/index.asp">Corporate Training</a>
+                {% endblock nav%}
+            </nav>
+            <!--  -->
+            <aside id="aside">
+                {% block sidebar %}
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                    </ul>
+                {% endblock sidebar %}
+            </aside>
+            <!--  Основное содержание сайта -->
+            <main>
+                {% block content %}
+                    Content<br>
+                    {% lorem 5 %}
+                    we kwejr lkwj rfwj erfjw erfjw erojf worj hfwjoher fojwhe rfojhw erojfh woerf
+                    fjw rfjowe rfjowe nrfjw erfjw ejrf wejrnf wjenrojwe rwoejrhv wjoerh vwjoehr vowjehr v
+                    wejrhv wje vkwe rvklwne rjv werjv weojr vowjer vwjer vwj erv
+                    jnij in oi iouh oiuh oiuh oiuh oiuh iouhpiuhiouhoiuho iuh oiuh oiuh oiuh oiuh piuh oiuh uiy ghuiyh oi
+                {% endblock content%}
+            </main>
+            <!--  -->
+            <footer>
+                {% block footer %}
+                    <p>
+                        <a href="/license">Лицензионное соглашение</a><br/>
+                        Copyright © 2016. SomeSite.com
+                    </p>
+                {% endblock footer%}
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

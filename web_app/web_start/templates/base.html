@@ -3,64 +3,88 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Почта{% endblock title%}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block page_meta %}{% endblock page_meta %}
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        .site {
+            width: 90%;
+        }
+
+        .container {
+            display: grid;
+            {% block  grid_definition %}
+                grid-template-columns: 65px 235px 1fr 400px;
+                grid-template-rows: 65px 50px 1fr 50px;
+            {% endblock grid_definition %}
+            {% block grid_areas %}
+            {% endblock grid_areas %}
+        }
+        .container > #avatar {
+            grid-area: avatar;
+        }
+        .container > #user {
+            grid-area: user;
+        }
+        .container > aside {
+            grid-area: aside;
+        }
+        .container > header {
+            grid-area: header;
+        }
+        .container > main {
+            grid-area: content;
+        }
+        .container > nav {
+            grid-area: menu;
+        }
+        .container > footer {
+            grid-area: footer;
+        }
+
+        .container > * {
+            place-content: center;
+        }
+        .container > header > * {
+            text-align: center;
+        }
+        #user > div {
+            text-align: right;
+        }
+    </style>
+
+    {# Vendor styles #}
+    {% block vendor_css %}
+<!--        <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/vendor.css' %}" />-->
+    {% endblock %}
+
+    {# Global styles #}
+    {% block site_css %}
+<!--        <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/application.css' %}" />-->
+    {% endblock %}
+
+    {# Page-specific styles #}
+    {% autoescape off %}
+        {% block page_css %}{% endblock page_css %}
+    {% endautoescape %}
+
+    {% block extra_head %}
+        {# Extra header stuff (scripts, styles, metadata, etc) #}
+    {% endblock %}
+
+     <title>{% block title %}Почта{% endblock title%}</title>
 </head>
+
 <body>
-    <header role="banner">
-        <!-- Логотип системы или организации -->
-        <div role="img">
-            {% block logo %}
-                <img src="{% static "images/postman.jpeg" %}" alt="MMS" >
-            {% endblock logo%}
+    <div class="site">
+        <div class="container">
+            {% block grid_area_definition %}
+            {% endblock grid_area_definition %}
         </div>
-        <!--  -->
-        <div role="marquee">
-            {% block header %}
-                <h1>Система управления сообщениями</h1>
-            {% endblock header%}
-        </div>
-        <!-- либо аутентифицированый пользователь, либо приглашение для регистрации/аутентификации-->
-        <div role="toolbar">
-            Пользователь системой
-        </div>
-    </header>
-
-    <nav role="navigation">
-        {% block nav %}
-            <div>Меню</div>
-            <a href = "https://www.tutorialspoint.com/index.htm">Home</a>
-            <a href = "https://www.tutorialspoint.com/codingground.htm">Coding Ground</a>
-            <a href = "https://www.tutorialspoint.com/about/about_careers.htm">Jobs</a>
-            <a href = "https://www.tutorialspoint.com/whiteboard.htm">Whiteboard</a>
-            <a href = "https://www.tutorialspoint.com/online_dev_tools.htm">Tools</a>
-            <a href = "https://www.tutorialspoint.com/business/index.asp">Corporate Training</a>
-        {% endblock nav%}
-    </nav>
-
-
-    <h2 class="demo">Tutorialspoint</h2>
-
-
-    <main role="main">
-        {% block content %}{% endblock content%}
-    </main>
-
-    <aside>
-        {% block sidebar %}
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/blog/">Blog</a></li>
-            </ul>
-        {% endblock sidebar%}
-    </aside>
-
-    <footer role="contentinfo">
-        {% block footer %}
-            <p>
-                <a href="/license">Лицензионное соглашение</a><br/>
-                Copyright © 2016. SomeSite.com
-            </p>
-        {% endblock footer%}
-    </footer>
+    </div>
 </body>
 </html>

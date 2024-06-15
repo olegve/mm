@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        .site {
+            width: 90%;
+        }
+
+
+        .container {
+            display: grid;
+            grid-template-columns: 65px 235px 1fr 400px;
+            grid-template-rows: 65px 50px 1fr 50px;
+            background-color: beige;
+            gap: 5px;
+            grid-template-areas: 'avatar header header user'
+                                 'aside aside menu menu'
+                                 'aside aside content content'
+                                 'footer footer footer footer';
+
+            padding: 2px;
+            border: 1px solid black;
+        }
+        .container > #avatar {
+            grid-area: avatar;
+
+            border: 1px solid black;
+        }
+        .container > #user {
+            grid-area: user;
+
+            border: 1px solid darkred;
+        }
+        .container > aside {
+            grid-area: aside;
+
+            border: 1px solid red;
+        }
+        .container > header {
+            grid-area: header;
+
+            padding: 10px;
+            border: 1px solid green;
+        }
+        .container > main {
+            grid-area: content;
+
+            border: 1px solid green;
+        }
+        .container > nav {
+            grid-area: menu;
+
+            border: 1px solid green;
+        }
+        .container > footer {
+            grid-area: footer;
+            color: darkblue;
+            border: 1px solid darkgreen;
+        }
+
+
+        .container > * {
+            background-color: lightblue;
+            font-size: 20px;
+            place-content: center;
+            color: green;
+        }
+        #user > div {
+            margin: auto;
+
+            color: red;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+    <div class="site">
+        <div class="container">
+            <div id="avatar">
+                <div>Image</div>
+            </div>
+            <header>
+                <div>Система управления сообщениями</div>
+            </header>
+            <div id="user">
+                <div>
+                    Серебряков Владимир Вячеславович<br>
+                    Выход из системы
+                </div>
+            </div>
+
+            <nav>
+                Menu
+            </nav>
+            <aside id="aside">
+                Aside
+            </aside>
+            <main>
+                Content<br>
+                we kwejr lkwj rfwj erfjw erfjw erojf worj hfwjoher fojwhe rfojhw erojfh woerf
+                 fjw rfjowe rfjowe nrfjw erfjw ejrf wejrnf wjenrojwe rwoejrhv wjoerh vwjoehr vowjehr v
+                wejrhv wje vkwe rvklwne rjv werjv weojr vowjer vwjer vwj erv
+                jnij in oi iouh oiuh oiuh oiuh oiuh iouhpiuhiouhoiuho iuh oiuh oiuh oiuh oiuh piuh oiuh uiy ghuiyh oi
+            </main>
+
+            <footer>
+                Copyright
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

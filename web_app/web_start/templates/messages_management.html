@@ -1,0 +1,13 @@
+{% extends "grid_messages_management.html" %}
+
+{% block auth_user %}
+    <div>
+        {% if user.is_authenticated %}
+            {{ user.last_name }} {{ user.first_name }}<br>
+            <a href="/accounts/logout/">Выйти из системы</a>
+        {% else %}
+            <a href="/accounts/login/">Войти в систему</a><br>
+            <a href="/accounts/signup/">Зарегестрироваться</a>
+        {% endif %}
+    </div>
+{% endblock auth_user %}
