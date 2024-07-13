@@ -1,90 +1,55 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block page_meta %}{% endblock page_meta %}
-    <style>
-        *{
-            margin: 0px;
-            padding: 0px;
-            box-sizing: border-box;
-        }
-        .site {
-            width: 90%;
-        }
 
-        .container {
-            display: grid;
-            {% block  grid_definition %}
-                grid-template-columns: 65px 235px 1fr 400px;
-                grid-template-rows: 65px 50px 1fr 50px;
-            {% endblock grid_definition %}
-            {% block grid_areas %}
-            {% endblock grid_areas %}
-        }
-        .container > #avatar {
-            grid-area: avatar;
-        }
-        .container > #user {
-            grid-area: user;
-        }
-        .container > aside {
-            grid-area: aside;
-        }
-        .container > header {
-            grid-area: header;
-        }
-        .container > main {
-            grid-area: content;
-        }
-        .container > nav {
-            grid-area: menu;
-        }
-        .container > footer {
-            grid-area: footer;
-        }
 
-        .container > * {
-            place-content: center;
-        }
-        .container > header > * {
-            text-align: center;
-        }
-        #user > div {
-            text-align: right;
-        }
-    </style>
+    <title>{% block title %}Почта{% endblock title%}</title>
+
 
     {# Vendor styles #}
     {% block vendor_css %}
-<!--        <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/vendor.css' %}" />-->
+        <link rel="stylesheet" type="text/css" media="all" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
     {% endblock %}
+
 
     {# Global styles #}
     {% block site_css %}
-<!--        <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/application.css' %}" />-->
-    {% endblock %}
+        <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/main.css' %}" />
+    {% endblock site_css %}
+
 
     {# Page-specific styles #}
-    {% autoescape off %}
-        {% block page_css %}{% endblock page_css %}
-    {% endautoescape %}
+    {% autoescape off %}{% block page_css %}{% endblock page_css %}{% endautoescape %}
 
-    {% block extra_head %}
-        {# Extra header stuff (scripts, styles, metadata, etc) #}
-    {% endblock %}
 
-     <title>{% block title %}Почта{% endblock title%}</title>
+    {% block extra_head %}{# Extra header stuff (metadata, etc) #}{% endblock extra_head %}
 </head>
 
 <body>
-    <div class="site">
-        <div class="container">
-            {% block grid_area_definition %}
-            {% endblock grid_area_definition %}
-        </div>
-    </div>
+    {% block content %}
+    {% endblock content %}
+
+    {# Vendor JS #}
+    {% block vendor_js %}
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    {% endblock vendor_js %}
+
+    {# Global styles #}
+    {% block site_js %}
+        <script src="{% static 'js/main.js' %}"></script>
+    {% endblock site_js %}
+
+    {# Page-specific js #}
+    {% autoescape off %}
+        {% block page_js %}{% endblock page_js %}
+    {% endautoescape %}
+
+    {% block extra_js %}{% endblock extra_js %}
 </body>
+
 </html>
