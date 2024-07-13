@@ -20,6 +20,7 @@ class AccountAdapter(DefaultAccountAdapter):
         """
         Instantiates a new User instance.
         """
+        
         user = super().new_user(request)
         organization = self.save_organization(request)
         user.organization = organization

@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% load static %}
+
+{# Vendor styles #}
+{% block vendor_css %}
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+{% endblock %}
+
+{# Vendor JS #}
+{% block vendor_js %}
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% endblock vendor_js %}

@@ -35,3 +35,8 @@ class User(AbstractUser):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
+    def __str__(self) -> str:
+        if self.first_name is None or self.first_name == "" and self.last_name is None or self.last_name == "":
+            return self.get_username()
+        else:
+            return f"{self.first_name} {self.last_name}"
