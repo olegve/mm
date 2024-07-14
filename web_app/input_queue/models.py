@@ -62,5 +62,7 @@ class InputQueue(models.Model):
 
     class Meta:
         indexes = [GinIndex(name='JSONGinIndex', fields=['message', 'meta', 'chain'])]
+        verbose_name = "Сообщение"
+        verbose_name_plural = "Сообщения"
 
 
