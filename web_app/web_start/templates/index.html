@@ -14,11 +14,11 @@
                 </button>
                 <ul class="dropdown-menu">
                     {% if request.user.is_authenticated %}
-                        <li><a class="dropdown-item" href=/accounts/logout/>Выход из системы</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Выход из системы</a></li>
                         <li><a class="dropdown-item" href="#">Учётная запись</a></li>
                     {% else %}
-                        <li><a class="dropdown-item" href=/accounts/login/>Вход в систему</a></li>
-                        <li><a class="dropdown-item" href=/accounts/signup/>Регистрация в системе</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_login' %}">Вход в систему</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_signup' %}">Регистрация в системе</a></li>
                     {% endif %}
                 </ul>
             </div><!-- class="dropdown" -->

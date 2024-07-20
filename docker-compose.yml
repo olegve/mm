@@ -14,7 +14,8 @@ services:
 #      context: ./${DJANGO_PROJECT_NAME}
       context: .
       dockerfile: ./${DJANGO_PROJECT_NAME}/Dockerfile
-
+      args:
+        django_project: ${DJANGO_PROJECT_NAME}
     ports:
       - "8000:8000"
     volumes:
@@ -38,7 +39,7 @@ services:
   # Внешний порт из контейнера берём из переменной окружения.
   # Из этой же переменной (DB_PORT) Django берёт номер порта для связи с базой данных.
   database:
-    image: postgres:16.2-alpine3.19
+    image: postgres:16.3-alpine3.20
     ports:
       - "${DB_PORT}:5432"
     env_file:
@@ -49,7 +50,7 @@ services:
 
   # Redis конфигурация
   redis:
-    image: redis:7.2.4-alpine3.19
+    image: redis:7.2.5-alpine3.20
     hostname: redis
 
 
@@ -120,4 +121,19 @@ services:
     env_file:
       - .env
 
-
+#  nginx:
+#    build:
+#      context: .
+#      dockerfile: ./nginx/Dockerfile
+#    # Подключаем статические и медиа файлы
+#    volumes:
+#      - static:/${DJANGO_PROJECT_NAME}/static
+##     - media:/home/app/web/media
+#    ports:
+#      - "80:80"
+#      - "8080:8080"
+#    env_file:
+#      - .env
+#    depends_on:
+#      - web-app
+#      - flower

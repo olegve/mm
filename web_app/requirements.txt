@@ -27,3 +27,4 @@ flower==2.0.1
 
 pydantic==2.7.3
 
+gunicorn==22.0.0
