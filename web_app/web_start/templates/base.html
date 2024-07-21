@@ -7,36 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block page_meta %}{% endblock page_meta %}
 
-
     <title>{% block title %}{{title}}{% endblock title%}</title>
-
 
     {# Vendor styles #}
     {% block vendor_css %}
-        <link rel="stylesheet" type="text/css" media="all" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+        {% include "vendor_css/css_settings.html" %}
     {% endblock %}
-
 
     {# Global styles #}
     {% block site_css %}
         <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/main.css' %}" />
     {% endblock site_css %}
 
-
     {# Page-specific styles #}
     {% autoescape off %}{% block page_css %}{% endblock page_css %}{% endautoescape %}
-
 
     {% block extra_head %}{# Extra header stuff (metadata, etc) #}{% endblock extra_head %}
 </head>
 
 <body>
-    {% block content %}
-    {% endblock content %}
+    {% block body %}
+        {% block content %}
+        {% endblock content %}
+    {% endblock body %}
+
+    {% block extra_body %}
+    {% endblock extra_body %}
 
     {# Vendor JS #}
     {% block vendor_js %}
-        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        {% include "vendor_css/js_settings.html" %}
     {% endblock vendor_js %}
 
     {# Global styles #}
