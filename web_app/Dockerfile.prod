@@ -1,0 +1,35 @@
+FROM python:3.11.9
+LABEL authors="ove"
+
+ARG project_root_dir
+ENV django=web_app
+RUN echo Рабочий каталог Django ./${django}
+
+# Без libpq5 не работает psycopg3.
+# apt отсутствует в alpine версии
+RUN apt install libpq5
+
+# Копируем файл с описанием необходимымых зависимостей
+COPY ./${django}/requirements.txt /temp/requirements.txt
+
+# Устанавлиывем зависимости
+RUN \
+#    --mount=type=cache,target=/Users/ove/Downloads/mm \
+    pip install -r /temp/requirements.txt
+
+# Копируем проект
+COPY ./${django} /${django}
+WORKDIR /${django}
+EXPOSE 8000
+
+# Без этой строчки команда Django manage.py collectstatic выдаёт Permission error
+RUN chmod a+rwx -R /${django}
+
+RUN chmod +x /${django}/run_app_prod.sh
+
+# Запускаемся от имени ove почему-то
+RUN adduser --disabled-password ove
+USER ove
+
+ENTRYPOINT ["/web_app/run_app_prod.sh"]
+

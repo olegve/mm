@@ -10,4 +10,4 @@ python manage.py migrate;
 python manage.py collectstatic --noinput;
 python manage.py runserver 0.0.0.0:8000;
 
-#gunicorn -w 2 -b 0:8000 foodgram.wsgi;
+# gunicorn -w 2 -b 0:8000 web_app.wsgi:application;

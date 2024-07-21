@@ -1,0 +1,55 @@
+{% load static %}
+
+{% block main_users_content %}
+    <div class="message-list container-fluid table-responsive">
+
+        {% block message-action-button %}
+            <div class="message-action-button">
+                <nav>Навигация</nav>
+            </div>
+        {% endblock message-action-button %}
+
+
+        <table class="table table-hover table-bordered message-list-table data-table1" style="width: 100%">
+            <colgroup>
+                <col class="checkbox" span="1" style="width: 4%;">
+                <col class="message-text" span="1" style="width: 84%;">
+                <col class="date" span="1" style="width: 12%;">
+            </colgroup>
+
+            <thead class="table-primary">
+                <tr>
+                    <th class="checkbox" scope="col">#</th> <!-- class="checkbox" -->
+                    <th class="message-text" scope="col">Сообщениe</th> <!-- class="message-text" -->
+                    <th class="date" scope="col">Дата и время</th> <!-- class="date" -->
+                </tr>
+            </thead>
+
+            <tbody class="table-group-divider">
+<!--                <tr onclick="window.location='/logout';">-->
+                <tr>
+                    <td class="checkbox" scope="row">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel_1" value="" aria-label="...">
+                    </td> <!-- class="checkbox" -->
+                    <td class="message-text" >Сообщениe #1</td> <!-- class="message-text" -->
+                    <td class="date"><span class="mdate">12.03.2024</span> - <span class="mtime">23:54:42</span></td> <!-- class="date" -->
+                </tr>
+                <tr class="table-secondary">
+                    <td class="checkbox" scope="row">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel_2" value="" aria-label="...">
+                    </td> <!-- class="checkbox" -->
+                    <td class="message-text">Сообщениe #2</td> <!-- class="message-text" -->
+                    <td class="date"><span class="mdate">12.05.2024</span> - <span class="mtime">3:14:02</span></td> <!-- class="date" -->
+                </tr>
+                <tr>
+                    <td class="checkbox" scope="row">
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel_3" value="" aria-label="...">
+                    </td> <!-- class="checkbox" -->
+                    <td class="message-text">Сообщениe #3</td> <!-- class="message-text" -->
+                    <td class="date"><span class="mdate">12.07.2024</span> - <span class="mtime">13:08:22</span></td> <!-- class="date" -->
+                </tr>
+            </tbody>
+        </table>
+
+    </div> <!-- class="message-list" -->
+{% endblock main_users_content %}

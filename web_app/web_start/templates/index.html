@@ -1,48 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Система управления сообщениями</title>
-    </head>
+{% extends "site_footer.html" %}
 
-    <body>
-        <div>
-            <strong>Меню:</strong>
-            <ul>
-                {% if not user.is_authenticated %}
-                    <li>
-                        <a href="/accounts/login/">Войти</a>
-                    </li>
-                    <li>
-                        <a href="/accounts/signup/">Зарегестрироваться</a>
-                    </li>
-                {% else %}
-                    <li>
-                        <a href="/accounts/email/">Изменить E-mail</a>
-                    </li>
-                    <li>
-                        <a href="/accounts/password/change/">Изменить пароль</a>
-                    </li>
 
-                    <li>
-                        <a href="/accounts/logout/">Выйти</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+{% block site_header_account_actions %}
+    <div class="d-flex justify-content-end">
+        <div class="btn-group me-2">
+            <div class="dropdown  align-content-center">
+                <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% if request.user.is_authenticated %}
+                        <span class="auth-user">{{ request.user }}</span>
+                    {% else %}
+                        <span class="auth-user">Работа в системе</span>
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu">
+                    {% if request.user.is_authenticated %}
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Выход из системы</a></li>
+                        <li><a class="dropdown-item" href="#">Учётная запись</a></li>
+                    {% else %}
+                        <li><a class="dropdown-item" href="{% url 'account_login' %}">Вход в систему</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_signup' %}">Регистрация в системе</a></li>
+                    {% endif %}
+                </ul>
+            </div><!-- class="dropdown" -->
+        </div><!-- class="btn-group" -->
+    </div><!-- class="d-flex justify-content-end" -->
+{% endblock site_header_account_actions %}
 
-        <div>
-            <h1>Привет!</h1>
-        </div>
-        <div>
-            {% if user.is_authenticated %}
-                <p>
-                    <span>{{ user.first_name }} {{ user.last_name }},</span>
-                    вы авторизованы.
-                </p>
-            {% else %}
-                <p>Ты не авторизовался, сделай это, пожалуйста!</p>
-            {% endif %}
-        </div>
-    </body>
-</html>
+
+{% block main_content %}
+    {% if request.user.is_authenticated %}
+        {% include "mms/start.html" %}
+    {% else %}
+        {% include "site/start.html" %}
+    {% endif %}
+{% endblock main_content %}

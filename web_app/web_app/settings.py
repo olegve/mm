@@ -89,10 +89,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'web_app.urls'
 
+OVERRIDES_TEMPLATES = os.path.join(BASE_DIR, 'templates')
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            OVERRIDES_TEMPLATES,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
