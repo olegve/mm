@@ -1,9 +1,9 @@
 [
   {
     "model": "input_queue.inputqueue",
-    "pk": 1,
+    "pk": 1001,
     "fields": {
-      "organization": "000000",
+      "organization": "7708775470",
       "message": {"message": {"node": "воздушный фильтр №1", "note": "Примечания к сообщению", "system": "К10-В10", "message": "Малый перепад давления, возможно пора заменить фильтр", "subject": "Это поле длиной не более 50 символов. 123456789012", "building": "Покровка, 5", "priority": 2}},
       "meta": {"data": {"HTTP_HOST": "localhost:8000", "PATH_INFO": "/api/message/", "HTTP_ACCEPT": "*/*", "REMOTE_ADDR": "192.168.65.1", "REMOTE_HOST": "", "SERVER_PORT": 8000, "CONTENT_TYPE": "application/json", "CONTENT_LENGTH": 463, "REQUEST_METHOD": "POST", "HTTP_USER_AGENT": "PostmanRuntime/7.40.0", "SERVER_PROTOCOL": "HTTP/1.1", "HTTP_CACHE_CONTROL": "no-cache"}, "organization_id": "000000"},
       "created": "2024-07-14T20:02:17.344Z",
