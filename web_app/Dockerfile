@@ -27,8 +27,8 @@ RUN chmod a+rwx -R /${django}
 RUN chmod +x /${django}/run_app_dev.sh
 
 # Запускаемся от имени ove почему-то
-# RUN adduser --disabled-password ove
-# USER ove
+RUN adduser --disabled-password ove
+USER ove
 
 ENTRYPOINT ["/web_app/run_app_dev.sh"]
 
