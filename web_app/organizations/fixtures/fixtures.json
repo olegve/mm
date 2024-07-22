@@ -1,0 +1,6 @@
+[
+  {"model": "organizations.organization", "pk": "7708775470", "fields": {"name": "Иностар ООО", "state": 0}},
+  {"model": "organizations.organization", "pk": "7706757821", "fields": {"name": "Градстрой ООО", "state": 0}},
+  {"model": "organizations.organization", "pk": "7720736541", "fields": {"name": "Мегастрой ООО", "state": 0}}
+]
+

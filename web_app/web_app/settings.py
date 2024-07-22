@@ -291,3 +291,9 @@ CACHES = {
         }
     }
 }
+
+
+FIXTURE_DIRS = [
+    'fixtures',
+]
+
